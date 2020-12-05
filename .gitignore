@@ -1,0 +1,9 @@
+# Js stuff
+node_modules
+
+# Mac files
+.DS_*
+
+# parcel-bundler cache (https://parceljs.org/)
+.cache
+.parcel-cache
