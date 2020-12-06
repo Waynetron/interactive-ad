@@ -7,3 +7,7 @@ export const wrap = function (val, min, max) {
     return val;
   }
 };
+
+export const clamp = function (value, min, max) {
+  return Math.min(Math.max(value, min), max);
+};

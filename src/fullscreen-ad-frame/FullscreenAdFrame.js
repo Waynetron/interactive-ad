@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import styled, { css } from "styled-components";
+import { clamp } from "../utils/math";
+import ProgressRing from "../progress-ring/ProgressRing.js";
 
 const AdArea = styled.div`
   height: 9000px;
@@ -26,10 +28,6 @@ const AdFrame = styled.div`
       left: 0;
     `}
 `;
-
-const clamp = function (value, min, max) {
-  return Math.min(Math.max(value, min), max);
-};
 
 const FullscreenAdFrame = ({ ad }) => {
   const [progress, setProgress] = useState(0);
@@ -59,6 +57,7 @@ const FullscreenAdFrame = ({ ad }) => {
     <AdArea ref={areaRef} hasScrolledPastAd={hasScrolledPastAd}>
       <AdFrame ref={adFrameRef} lockAd={lockAd}>
         {React.createElement(ad, { progress })}
+        <ProgressRing progress={progress} />
       </AdFrame>
     </AdArea>
   );

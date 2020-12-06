@@ -9,14 +9,13 @@ import CarBlue from "./car-blue.svg";
 // the app will eventually slow down
 const CarImage = styled.img.attrs(({ x, y, rotation, width }) => ({
   style: {
-    left: `${x - width / 2}%`,
+    left: `${x}%`,
     top: `${y}%`,
     transform: `rotate(${rotation}deg)`,
     width: `${width}%`,
   },
 }))`
   position: absolute;
-  width: 10%;
 `;
 
 const colorAssetMap = {

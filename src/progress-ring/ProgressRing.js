@@ -7,8 +7,9 @@ const NORMALISED_RADIUS = RADIUS - STROKE * 2;
 const CIRCUMFERENCE = NORMALISED_RADIUS * 2 * Math.PI;
 
 const RingSVG = styled.svg`
-  display: flex;
-  align-self: flex-end;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
 `;
 
 // progress value ranges from 0 to 1
