@@ -33,27 +33,8 @@ const isOverlapping = (spriteA, spriteB) => {
   );
 };
 
-const getDistanceBetween = function (positionA, positionB) {
-  const xDistance = positionA.x - positionB.x;
-  const yDistance = positionA.y - positionB.y;
-
-  return Math.sqrt(xDistance * xDistance + yDistance * yDistance);
-};
-
-const isTouching = function (carA, carB) {
-  const positionA = { x: carA.x, y: carA.y };
-  const positionB = { x: carB.x, y: carB.y };
-  const distance = getDistanceBetween(positionA, positionB);
-
-  return distance < 5;
-};
-
-const applyCollisions = function (carA, allCars, deltaTime) {
-  if (carA.stopped) {
-    return carA;
-  }
-
-  for (const carB of allCars) {
+const applyCollisions = function (carA, cars, deltaTime) {
+  for (const carB of cars) {
     if (carA.id === carB.id) {
       continue;
     }
@@ -106,17 +87,13 @@ export const updatePlayer = function (gameState, progress) {
 };
 
 export const updateTraffic = function (gameState, deltaTime) {
-  if (gameState.player.stopped) {
+  const { player, traffic } = gameState;
+
+  if (player.stopped) {
     return gameState;
   }
 
-  const { player, traffic } = gameState;
-  const allCars = [...traffic, player];
-
-  const newTraffic = traffic
-    .map((car) => applyMovement(car, deltaTime))
-    .map((car) => applyCollisions(car, allCars, deltaTime));
-
+  const newTraffic = traffic.map((car) => applyMovement(car, deltaTime));
   const newPlayer = applyCollisions(player, traffic, deltaTime);
 
   return { ...gameState, traffic: newTraffic, player: newPlayer };

@@ -2,14 +2,13 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import useAnimationFrame from "../common-hooks/use-animation-frame.js";
 import { updatePlayer, updateTraffic } from "./simulation.js";
-import { clamp } from "../utils/math";
 import { v4 as uuidv4 } from "uuid";
 import Car from "./car/Car.js";
 import WinImage from "./images/win-image.png";
 import LoseImage from "./images/lose-image.png";
 
 const EndImage = styled.img`
-  width: 100%;
+  width: 90%;
 `;
 
 const Container = styled.div`
@@ -23,7 +22,7 @@ const Container = styled.div`
 const GameView = styled.div`
   display: flex;
   flex-grow: 1;
-  background: linear-gradient(180deg, #c4a500 -78.79%, #e6d759 137.5%);
+  background: linear-gradient(180deg, #e1ca00 0%, #f0dd36 100%);
   display: flex;
   flex-direction: column;
   padding: 1rem;
@@ -31,9 +30,9 @@ const GameView = styled.div`
   overflow: hidden;
 `;
 
-const EndView = styled.div.attrs(({ progress }) => ({
+const EndView = styled.div.attrs(({ show }) => ({
   style: {
-    left: `${100 - progress * 100}%`,
+    left: `${show ? 0 : 100}%`,
   },
 }))`
   display: flex;
@@ -44,6 +43,7 @@ const EndView = styled.div.attrs(({ progress }) => ({
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  transition: left 0.25s ease-out;
 `;
 
 // Uses css coordinate system where 0, 0 is top left.
@@ -63,7 +63,6 @@ const lowerSideRoad = [
   [0, 75],
 ];
 
-const initialRoads = [{ path: mainRoadPath }];
 const initialPlayer = {
   id: "player",
   x: 50,
@@ -87,7 +86,7 @@ const initialTraffic = [
   {
     id: uuidv4(),
     x: 25,
-    y: 25,
+    y: 1000,
     color: "blue",
     path: upperSideRoad,
     rotation: -90,
@@ -134,18 +133,8 @@ const MiniCooperAd = function ({ progress }) {
     player: initialPlayer,
   });
 
-  // Denotes when to transition to the end screen [from, to]
-  const [endTransition, setEndTransition] = useState([0.7, 0.9]);
-
   const lose = gameState.player.stopped;
   const win = !lose && progress >= 0.8;
-
-  // Updates whenever progress changes (when user scrolls)
-  useEffect(() => {
-    if (gameState.player.stopped) {
-      setEndTransition([progress, progress + 0.2]);
-    }
-  }, [gameState.player.stopped]);
 
   // Updates whenever progress changes (when user scrolls)
   useEffect(() => {
@@ -157,13 +146,6 @@ const MiniCooperAd = function ({ progress }) {
     setGameState((prevState) => updateTraffic(prevState, deltaTime));
   });
 
-  const endTransitionLength = endTransition[1] - endTransition[0];
-  const endTransitionProgress = clamp(
-    (progress - endTransition[0]) / endTransitionLength,
-    0,
-    1
-  );
-
   return (
     <Container>
       <GameView>
@@ -172,7 +154,7 @@ const MiniCooperAd = function ({ progress }) {
           <Car x={car.x} y={car.y} color={car.color} rotation={car.rotation} />
         ))}
       </GameView>
-      <EndView progress={endTransitionProgress}>
+      <EndView show={lose || progress > 0.8}>
         <EndImage src={lose ? LoseImage : WinImage} />
       </EndView>
     </Container>
