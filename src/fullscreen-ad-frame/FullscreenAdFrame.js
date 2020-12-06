@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled, { css } from "styled-components";
 
 const AdArea = styled.div`
@@ -35,15 +35,15 @@ const FullscreenAdFrame = ({ ad }) => {
   const [progress, setProgress] = useState(0);
   const [lockAd, setLockAd] = useState(false);
   const [hasScrolledPastAd, setHasScrolledPastAd] = useState(false);
+  const areaRef = useRef();
+  const adFrameRef = useRef();
 
   useEffect(() => {
     const onScroll = function () {
-      const area = document.getElementById("ad-area");
-      const ad = document.getElementById("ad-frame");
-      const distanceFromTop = area.getBoundingClientRect().top;
-      const distanceFromBottom = area.getBoundingClientRect().bottom;
-      const areaHeight = area.getBoundingClientRect().height;
-      const adHeight = ad.getBoundingClientRect().height;
+      const distanceFromTop = areaRef.current.getBoundingClientRect().top;
+      const distanceFromBottom = areaRef.current.getBoundingClientRect().bottom;
+      const areaHeight = areaRef.current.getBoundingClientRect().height;
+      const adHeight = adFrameRef.current.getBoundingClientRect().height;
       const scrollProgress = 0 - distanceFromTop / (areaHeight - adHeight);
 
       setProgress(clamp(scrollProgress, 0, 1));
@@ -56,8 +56,8 @@ const FullscreenAdFrame = ({ ad }) => {
   }, []);
 
   return (
-    <AdArea id="ad-area" hasScrolledPastAd={hasScrolledPastAd}>
-      <AdFrame id="ad-frame" lockAd={lockAd}>
+    <AdArea ref={areaRef} hasScrolledPastAd={hasScrolledPastAd}>
+      <AdFrame ref={adFrameRef} lockAd={lockAd}>
         {React.createElement(ad, { progress })}
       </AdFrame>
     </AdArea>

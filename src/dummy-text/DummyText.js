@@ -5,18 +5,21 @@ const TextBlock = styled.div`
   padding: 2rem;
 `;
 
-const generateParagraph = function () {
-  const paragraphStyle = {
-    width: `${Math.random() * 20 + 80}%`,
-    backgroundColor: "#ededed",
-    color: "transparent",
-  };
-
-  return <p style={paragraphStyle}>...</p>;
-};
+const TextLine = styled.p`
+  width: ${(props) => props.width}%;
+  background-color: #ededed;
+  color: transparent;
+`;
 
 const DummyText = ({ numParagraphs }) => {
-  const paragraphs = Array(numParagraphs).fill(0).map(generateParagraph);
+  const paragraphs = Array(numParagraphs)
+    .fill(0)
+    .map((_, index) => (
+      // Usually we shoudn't use index as key, but this array isn't ever going to be mutated
+      <TextLine key={index} width={Math.random() * 15 + 85}>
+        ...
+      </TextLine>
+    ));
 
   return <TextBlock>{paragraphs}</TextBlock>;
 };

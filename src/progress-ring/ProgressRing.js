@@ -11,7 +11,7 @@ const RingSVG = styled.svg`
   align-self: flex-end;
 `;
 
-// progress ranges from 0 to 1
+// progress value ranges from 0 to 1
 const ProgressRing = ({ progress }) => {
   const strokeDashoffset = CIRCUMFERENCE - progress * CIRCUMFERENCE;
 
@@ -23,7 +23,6 @@ const ProgressRing = ({ progress }) => {
         strokeWidth={STROKE}
         strokeDasharray={CIRCUMFERENCE + " " + CIRCUMFERENCE}
         style={{ strokeDashoffset }}
-        stroke-width={STROKE}
         r={NORMALISED_RADIUS}
         cx={RADIUS}
         cy={RADIUS}
