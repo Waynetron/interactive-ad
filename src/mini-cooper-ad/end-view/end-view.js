@@ -5,13 +5,14 @@ import LoseImage from "./images/lose-image.png";
 import RestartButtonImage from "./images/restart-button.svg";
 
 const EndImage = styled.img`
-  width: 90%;
+  height: 100%;
+  object-fit: cover;
 `;
 
 const RestartButton = styled.img`
   position: absolute;
-  top: 14%;
-  width: 22%;
+  top: 10%;
+  height: 13%;
   border: none;
   background: none;
 
