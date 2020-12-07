@@ -4,9 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "build": "parcel build index.html",
-    "start": "parcel serve index.html",
-    "predeploy": "yarn build",
+    "start": "parcel index.html",
+    "predeploy": "rm -rf dist && parcel build index.html --public-url /interactive-ad",
     "deploy": "gh-pages -d dist"
   },
   "devDependencies": {
