@@ -2,7 +2,7 @@
 node_modules/
 
 # Mac files
-.DS_*
+.DS_Store
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
