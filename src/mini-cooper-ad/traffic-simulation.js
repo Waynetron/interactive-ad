@@ -13,8 +13,13 @@ const getPositionAlongPath = function (path, progress) {
 };
 
 const getEdges = (car) => {
-  const width = car.rotation === 0 ? 10 : 20; // 8 : 16;
-  const height = car.rotation === 0 ? 10 : 5; // 9 : 4.5;
+  // The values used here are percentage of screen width / height.
+  // Hit areas are larger than the car graphics, so that they never really crash into
+  // one another, but rather stop just prior to crashing. I figured that was a better
+  // more appropriate for a car advertisement.
+  // (I just fiddled with the numbers until the hit areas felt about right)
+  const width = car.rotation === 0 ? 10 : 20;
+  const height = car.rotation === 0 ? 10 : 5;
 
   return {
     top: car.y - height / 2,
