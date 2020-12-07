@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import styled, { css } from "styled-components";
 import { clamp } from "../utils/math";
-import ProgressRing from "../progress-ring/ProgressRing.js";
+import ProgressRing from "../progress-ring/progress-ring.js";
 
 const AdArea = styled.div`
   height: 9000px;

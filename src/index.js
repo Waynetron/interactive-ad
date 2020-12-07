@@ -1,8 +1,8 @@
 import React from "react";
 import { render } from "react-dom";
-import FullScreenAdFrame from "./fullscreen-ad-frame/FullscreenAdFrame.js";
-import DummyText from "./dummy-text/DummyText.js";
-import MiniCooperAd from "./mini-cooper-ad/MiniCooperAd.js";
+import FullScreenAdFrame from "./fullscreen-ad-frame/fullscreen-ad-frame.js";
+import DummyText from "./dummy-text/dummy-text.js";
+import MiniCooperAd from "./mini-cooper-ad/mini-cooper-ad.js";
 
 const App = () => (
   <>
