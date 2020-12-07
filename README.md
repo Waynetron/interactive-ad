@@ -5,7 +5,7 @@ Designed for mobile, specifically the portrait aspect and scrolling with a finge
 
 Ideally test it on device. But it does work fairly nicely in Chrome when emulating a mobile device (in Developer Tools) and dragging up and down with the mouse.
 
-## View online
+## Online demo
 
 https://waynetron.github.io/interactive-ad/
 
