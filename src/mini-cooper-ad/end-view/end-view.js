@@ -16,10 +16,9 @@ const RestartButton = styled.img`
   border: none;
   background: none;
 
-  &:hover: {
-    transform: scale(1.2);
-    background-color: red;
-    opacity: 1;
+  &:hover,
+  &:active {
+    transform: scale(1.05);
   }
 `;
 
