@@ -1,5 +1,5 @@
 # Js stuff
-node_modules
+node_modules/
 
 # Mac files
 .DS_*
