@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
-import CarWhite from "./car-white.svg";
-import CarRed from "./car-red.svg";
-import CarBlue from "./car-blue.svg";
+import CarWhite from "./images/car-white.svg";
+import CarRed from "./images/car-red.svg";
+import CarBlue from "./images/car-blue.svg";
 
 // Need to use .attrs() for the styles that change every frame,
 // else we'll end up with a gazillion class names generated and the
