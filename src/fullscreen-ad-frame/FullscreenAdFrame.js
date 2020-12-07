@@ -53,10 +53,15 @@ const FullscreenAdFrame = ({ ad }) => {
     return () => window.removeEventListener("scroll", onScroll); // clean up
   }, []);
 
+  const scrollToStart = function () {
+    const yPos = areaRef.current.getBoundingClientRect().top + window.scrollY;
+    window.scrollTo(0, yPos);
+  };
+
   return (
     <AdArea ref={areaRef} hasScrolledPastAd={hasScrolledPastAd}>
       <AdFrame ref={adFrameRef} lockAd={lockAd}>
-        {React.createElement(ad, { progress })}
+        {React.createElement(ad, { progress, scrollToStart })}
         <ProgressRing progress={progress} />
       </AdFrame>
     </AdArea>

@@ -6,9 +6,24 @@ import { v4 as uuidv4 } from "uuid";
 import Car from "./car/Car.js";
 import WinImage from "./images/win-image.png";
 import LoseImage from "./images/lose-image.png";
+import RestartButtonImage from "./images/restart-button.svg";
 
 const EndImage = styled.img`
   width: 90%;
+`;
+
+const RestartButton = styled.img`
+  position: absolute;
+  top: 14%;
+  width: 22%;
+  border: none;
+  background: none;
+
+  &:hover: {
+    transform: scale(1.2);
+    background-color: red;
+    opacity: 1;
+  }
 `;
 
 const Container = styled.div`
@@ -37,7 +52,14 @@ const EndView = styled.div.attrs(({ show }) => ({
 }))`
   display: flex;
   position: absolute;
-  background: linear-gradient(180deg, #ddd 0%, #eee 100%);
+  background: linear-gradient(
+    180deg,
+    #e5e5e5 0%,
+    #ececec 49.97%,
+    #e1ca00 49.97%,
+    #e1ca00 100%
+  );
+
   width: 100%;
   height: 100%;
   align-items: center;
@@ -59,82 +81,56 @@ const upperSideRoad = [
 ];
 
 const lowerSideRoad = [
-  [100, 75],
-  [0, 75],
+  [100, 65],
+  [0, 65],
 ];
 
-const initialPlayer = {
-  id: "player",
-  x: 50,
-  y: 0,
-  color: "white",
-  path: mainRoadPath,
-  rotation: 0,
+const generateTraffic = function (
+  numCars,
+  path,
+  speed,
+  rotation,
+  spacing = 0.15
+) {
+  let traffic = [];
+  for (let i = 0; i < numCars; i++) {
+    traffic.push({
+      id: uuidv4(),
+      x: 0,
+      y: 0,
+      color: Math.random() > 0.5 ? "red" : "blue",
+      path,
+      rotation,
+      speed,
+      progress: i * spacing,
+      offset: Math.random(),
+    });
+  }
+
+  return traffic;
 };
-const initialTraffic = [
-  // Upper road
-  {
-    id: uuidv4(),
-    x: 25,
-    y: 25,
-    color: "red",
-    path: upperSideRoad,
-    rotation: -90,
-    speed: 0.5,
-    progress: 0,
+
+const initialGameState = {
+  traffic: [
+    ...generateTraffic(4, upperSideRoad, 0.75, -90),
+    ...generateTraffic(5, lowerSideRoad, 1.25, 90),
+  ],
+  player: {
+    id: "player",
+    x: 50,
+    y: 0,
+    color: "white",
+    path: mainRoadPath,
+    rotation: 0,
   },
-  {
-    id: uuidv4(),
-    x: 25,
-    y: 1000,
-    color: "blue",
-    path: upperSideRoad,
-    rotation: -90,
-    speed: 0.5,
-    progress: 0.2,
-  },
-  // Lower road
-  {
-    id: uuidv4(),
-    x: 25,
-    y: 1000,
-    color: "blue",
-    path: lowerSideRoad,
-    rotation: 90,
-    speed: 0.75,
-    progress: 0.2,
-  },
-  {
-    id: uuidv4(),
-    x: 25,
-    y: 500,
-    color: "blue",
-    path: lowerSideRoad,
-    rotation: 90,
-    speed: 0.75,
-    progress: 0.4,
-  },
-  {
-    id: uuidv4(),
-    x: 25,
-    y: 75,
-    color: "red",
-    path: lowerSideRoad,
-    rotation: 90,
-    speed: 0.75,
-    progress: 0.6,
-  },
-];
+};
 
 // Progress value ranges from 0 to 1
-const MiniCooperAd = function ({ progress }) {
-  const [gameState, setGameState] = useState({
-    traffic: initialTraffic,
-    player: initialPlayer,
-  });
+const MiniCooperAd = function ({ progress, scrollToStart }) {
+  const [gameState, setGameState] = useState(initialGameState);
 
   const lose = gameState.player.stopped;
-  const win = !lose && progress >= 0.8;
+  const win = !lose && progress > 0.6;
 
   // Updates whenever progress changes (when user scrolls)
   useEffect(() => {
@@ -146,16 +142,22 @@ const MiniCooperAd = function ({ progress }) {
     setGameState((prevState) => updateTraffic(prevState, deltaTime));
   });
 
+  const onRestart = function () {
+    setGameState(initialGameState);
+    scrollToStart();
+  };
+
   return (
-    <Container>
+    <Container id="top-of-ad">
       <GameView>
         <Car x={gameState.player.x} y={gameState.player.y} color="white" />
         {gameState.traffic.map((car) => (
           <Car x={car.x} y={car.y} color={car.color} rotation={car.rotation} />
         ))}
       </GameView>
-      <EndView show={lose || progress > 0.8}>
+      <EndView show={lose || win}>
         <EndImage src={lose ? LoseImage : WinImage} />
+        <RestartButton src={RestartButtonImage} onClick={onRestart} />
       </EndView>
     </Container>
   );

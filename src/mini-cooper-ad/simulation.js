@@ -60,7 +60,7 @@ const applyMovement = function (car, deltaTime) {
   newProgress = wrap(newProgress, 0, 1);
 
   // Scale up the pathProgress so that the car both starts and finishes completely off-screen.
-  const pathProgress = newProgress * 1.4 - 0.2;
+  const pathProgress = newProgress * 2 - 0.2;
   const { x, y } = getPositionAlongPath(car.path, pathProgress);
 
   return {
@@ -79,7 +79,7 @@ export const updatePlayer = function (gameState, progress) {
   }
 
   // Scale up the pathProgress so that the car both starts and finishes completely off-screen.
-  const pathProgress = progress * 1.4 - 0.2;
+  const pathProgress = progress * 2 - 0.2;
   const { x, y } = getPositionAlongPath(player.path, pathProgress);
   const newPlayer = { ...player, x, y };
 
